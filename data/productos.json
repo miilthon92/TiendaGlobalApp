@@ -1,0 +1,57 @@
+[
+  {
+    "comercio": "Verdulería Pato",
+    "direccion": "Av. Siempreviva 742",
+    "latitud": -34.6025,
+    "longitud": -58.3848,
+    "rubro": "verduleria",
+    "productos": [
+      { "nombre": "manzana", "precio": 800 },
+      { "nombre": "banana", "precio": 750 }
+    ]
+  },
+  {
+    "comercio": "Supermercado La Estrella",
+    "direccion": "Calle Falsa 123",
+    "latitud": -34.6050,
+    "longitud": -58.3800,
+    "rubro": "supermercado",
+    "productos": [
+      { "nombre": "leche", "precio": 500 },
+      { "nombre": "harina", "precio": 300 }
+    ]
+  },
+  {
+    "comercio": "Farmacia SaludTotal",
+    "direccion": "Boulevard Central 500",
+    "latitud": -34.6010,
+    "longitud": -58.3820,
+    "rubro": "farmacia",
+    "productos": [
+      { "nombre": "paracetamol", "precio": 600 },
+      { "nombre": "ibuprofeno", "precio": 800 }
+    ]
+  },
+  {
+    "comercio": "Panadería La Moderna",
+    "direccion": "Av. Rivadavia 234",
+    "latitud": -34.6070,
+    "longitud": -58.3790,
+    "rubro": "panaderia",
+    "productos": [
+      { "nombre": "pan", "precio": 350 },
+      { "nombre": "facturas", "precio": 700 }
+    ]
+  },
+  {
+    "comercio": "Ferretería El Tornillo",
+    "direccion": "Calle San Martín 789",
+    "latitud": -34.6005,
+    "longitud": -58.3855,
+    "rubro": "ferreteria",
+    "productos": [
+      { "nombre": "martillo", "precio": 1500 },
+      { "nombre": "clavos", "precio": 200 }
+    ]
+  }
+]

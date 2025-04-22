@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TiendaGlobal.app - Comercio</title>
+
+  <!-- Google Fonts y Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+    }
+    .hero {
+      width: 100%;
+      height: 250px;
+      background-color: #ccc;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-radius: 0 0 1rem 1rem;
+    }
+    .hero-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      border-radius: 0 0 1rem 1rem;
+    }
+    .hero-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+    }
+    .product-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-card img {
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      height: 200px;
+      object-fit: cover;
+    }
+    .whatsapp-btn {
+      background-color: #25d366;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+    .whatsapp-btn:hover {
+      background-color: #1ebe5b;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Portada Hero -->
+<div class="hero" id="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-text text-center">
+    <h1 id="nombreComercio">Cargando Comercio...</h1>
+    <p id="rubroComercio"></p>
+    <p id="direccionComercio"></p>
+    <a id="btnWhatsApp" href="#" target="_blank" class="whatsapp-btn d-none mt-3">Contactar por WhatsApp</a>
+  </div>
+</div>
+
+<div class="container mt-5">
+
+  <!-- Buscador -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <input type="text" id="buscarProducto" class="form-control" placeholder="Buscar productos...">
+    </div>
+  </div>
+
+  <!-- Productos -->
+  <div id="listaProductos" class="row"></div>
+
+</div>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyACoWhZ07nGMcfdTE7sDJAxQA12TQ1QoVk",
+    authDomain: "tiendaglobal-289aa.firebaseapp.com",
+    databaseURL: "https://tiendaglobal-289aa-default-rtdb.firebaseio.com",
+    projectId: "tiendaglobal-289aa",
+    storageBucket: "tiendaglobal-289aa.appspot.com",
+    messagingSenderId: "374979205385",
+    appId: "1:374979205385:web:294a507fcbd688b5c45bd8"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // Obtener UID desde URL
+  function obtenerUID() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('uid');
+  }
+
+  const uid = obtenerUID();
+
+  if (!uid) {
+    mostrarError("No se proporcionó el UID del comercio.");
+  } else {
+    cargarDatosComercio(uid);
+  }
+
+  function cargarDatosComercio(uid) {
+    database.ref('comercios/' + uid).once('value')
+      .then((snapshot) => {
+        const comercio = snapshot.val();
+        if (comercio) {
+          document.getElementById('nombreComercio').innerText = comercio.nombre || "Nombre del Comercio";
+          document.getElementById('rubroComercio').innerText = comercio.rubro || "";
+          document.getElementById('direccionComercio').innerText = comercio.direccion || "";
+
+          if (comercio.portada) {
+            document.getElementById('hero').style.backgroundImage = `url('${comercio.portada}')`;
+          }
+
+          if (comercio.whatsapp) {
+            const btn = document.getElementById('btnWhatsApp');
+            btn.href = `https://wa.me/${comercio.whatsapp}`;
+            btn.classList.remove('d-none');
+          }
+
+          cargarProductos(uid);
+        } else {
+          mostrarError("El comercio no existe en la base de datos.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        mostrarError("Error al cargar el comercio.");
+      });
+  }
+
+  function cargarProductos(uid) {
+    database.ref('comercios/' + uid + '/productos').on('value', (snapshot) => {
+      const productos = snapshot.val();
+      const contenedor = document.getElementById('listaProductos');
+      contenedor.innerHTML = '';
+
+      if (productos) {
+        Object.keys(productos).forEach((key) => {
+          const producto = productos[key];
+          const card = document.createElement('div');
+          card.className = 'col-md-4 mb-4';
+          card.innerHTML = `
+            <div class="card product-card h-100">
+              ${producto.foto ? `<img src="${producto.foto}" class="card-img-top" alt="Foto Producto">` : ''}
+              <div class="card-body text-center">
+                <h5 class="card-title">${producto.nombre}</h5>
+                <p><strong>Precio:</strong> $${producto.precio}</p>
+                ${producto.ofertaMayor ? `<p class="text-success"><strong>Oferta:</strong> ${producto.ofertaMayor}</p>` : ''}
+                ${producto.descripcion ? `<p class="card-text">${producto.descripcion}</p>` : ''}
+              </div>
+            </div>
+          `;
+          contenedor.appendChild(card);
+        });
+      } else {
+        contenedor.innerHTML = `<p class="text-center mt-5">Este comercio aún no ha agregado productos.</p>`;
+      }
+    });
+  }
+
+  function mostrarError(mensaje) {
+    document.getElementById('nombreComercio').innerText = "Error";
+    document.getElementById('rubroComercio').innerText = "";
+    document.getElementById('direccionComercio').innerText = "";
+    document.getElementById('listaProductos').innerHTML = `<p class="text-center mt-5">${mensaje}</p>`;
+  }
+
+  // Buscador en vivo
+  document.getElementById('buscarProducto').addEventListener('input', function() {
+    const filtro = this.value.toLowerCase();
+    const productos = document.querySelectorAll('#listaProductos .card');
+    productos.forEach((producto) => {
+      const nombre = producto.querySelector('.card-title').innerText.toLowerCase();
+      if (nombre.includes(filtro)) {
+        producto.parentElement.style.display = 'block';
+      } else {
+        producto.parentElement.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

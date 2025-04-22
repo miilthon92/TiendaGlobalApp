@@ -1,0 +1,197 @@
+/* Estilos base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    text-align: center;
+    padding: 10px;
+}
+
+#map {
+    width: 100%;
+    height: 350px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* Estilo para el listado */
+#businessList {
+    margin-top: 20px;
+}
+
+.business-card {
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.business-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.business-card h4 {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #0d6efd;
+    font-size: 18px;
+}
+
+.business-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #495057;
+}
+
+.business-card ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.business-card ul li {
+    font-size: 14px;
+    color: #212529;
+}
+
+/* Estilo para sugerencias */
+#suggestions {
+    position: relative;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    cursor: pointer;
+}
+
+/* Botón limpiar */
+#clearButton {
+    white-space: nowrap;
+}
+
+/* Optimización para pantallas chicas */
+@media (max-width: 576px) {
+    header h1 {
+        font-size: 22px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    #map {
+        height: 300px;
+    }
+
+    .business-card {
+        padding: 15px;
+    }
+
+    .business-card h4 {
+        font-size: 16px;
+    }
+
+    .business-card p, 
+    .business-card ul li {
+        font-size: 13px;
+    }
+
+    #searchInput {
+        font-size: 14px;
+    }
+
+    #clearButton {
+        font-size: 14px;
+    }
+}
+/* Estilos Perfil */
+.profile-header {
+    position: relative;
+    margin-top: -20px;
+  }
+  
+  .cover-photo {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.5rem;
+    position: relative;
+  }
+  
+  .profile-info {
+    position: relative;
+    top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    border: 5px solid white;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: white;
+  }
+  
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-text {
+    margin-top: 10px;
+  }
+  /* Espaciado debajo de la portada */
+.profile-header {
+    margin-bottom: 80px;
+  }
+  
+  /* Botón Cerrar Sesión personalizado */
+  #logoutBtn {
+    background-color: #e74c3c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  
+  #logoutBtn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Formulario de productos */
+  #productoForm {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+  
+  /* Productos listados */
+  #misProductos .card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  #misProductos .card:hover {
+    transform: translateY(-5px);
+  }
+  
